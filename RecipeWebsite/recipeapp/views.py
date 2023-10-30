@@ -1,8 +1,9 @@
 import logging
+from random import sample
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignUpForm
 from .models import Author, Category
 
@@ -63,3 +64,22 @@ def add_recipe(request):
         form = RecipeAddForm()
         message = 'Заполните форму!'
     return render(request, 'recipeapp/add_recipe.html', context={'form': form, 'message': message})
+
+
+@login_required  # Декоратор, защиты доступа без логина
+def show_five_recipe(request):  # Показать 5 рецептов
+    my_ids = Recipe.objects.values_list('id', flat=True)
+    my_ids = list(my_ids)
+    n = 5
+    rand_ids = sample(my_ids, n)
+    random_recipe = Recipe.objects.filter(id__in=rand_ids)
+    logger.info(f'Зпрос на вывод 5 рецептов успешно выполнен: {rand_ids=}')
+    return render(request, 'recipeapp/show_five_recipe.html',
+                  {'random_recipe': random_recipe, 'message': 'Пять случайных рецептов:'})
+
+
+@login_required  # Декоратор, защиты доступа без логина
+def show_full_recipe(request, recipe_id):  # Показать полный рецепт
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    logger.info(f'Зпрос на вывод 1 рецепта с ID:{recipe_id=} успешно выполнен: {recipe=}')
+    return render(request, 'recipeapp/show_full_recipe.html', {'recipe': recipe})

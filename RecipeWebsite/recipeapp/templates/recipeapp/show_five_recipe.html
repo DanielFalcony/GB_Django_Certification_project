@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Случайные рецепты{% endblock %}
+{% block content %}
+    <h3>{{ message }}</h3>
+        {% csrf_token %}
+<table>
+    {% for recipe in random_recipe %}
+    <tr>
+        <td><a href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}</a>
+        <td>{{ recipe.get_summary }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
