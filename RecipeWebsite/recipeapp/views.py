@@ -13,7 +13,7 @@ from .models import Recipe
 logger = logging.getLogger(__name__)
 
 
-@login_required  # Декоратор, защиты доступа без логина
+# @login_required  # Декоратор, защиты доступа без логина
 def index(request):
     return render(request, 'recipeapp/index.html')
 
@@ -66,7 +66,7 @@ def add_recipe(request):
     return render(request, 'recipeapp/add_recipe.html', context={'form': form, 'message': message})
 
 
-@login_required  # Декоратор, защиты доступа без логина
+# @login_required  # Декоратор, защиты доступа без логина
 def show_five_recipe(request):  # Показать 5 рецептов
     my_ids = Recipe.objects.values_list('id', flat=True)
     my_ids = list(my_ids)
@@ -78,7 +78,7 @@ def show_five_recipe(request):  # Показать 5 рецептов
                   {'random_recipe': random_recipe, 'message': 'Пять случайных рецептов:'})
 
 
-@login_required  # Декоратор, защиты доступа без логина
+# @login_required  # Декоратор, защиты доступа без логина
 def show_full_recipe(request, recipe_id):  # Показать полный рецепт
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     logger.info(f'Зпрос на вывод 1 рецепта с ID:{recipe_id=} успешно выполнен: {recipe=}')

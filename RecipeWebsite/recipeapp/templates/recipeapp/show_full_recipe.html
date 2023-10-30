@@ -3,6 +3,14 @@
 {% block title %}{{ recipe.name }}{% endblock  %}
 
 {% block content %}
-<h3>{{ recipe.name }}</h3>
-<p>{{ recipe.content }}</p>
+<h3>Название рецепта: {{ recipe.name }}</h3>
+<p>Описание рецепта:{{ recipe.description }}</p>
+<p>Этапы приготовления:{{ recipe.cooking_steps }}</p>
+<p>Время приготовления (мин):{{ recipe.cooking_time }}</p>
+<p>Автор рецепта:{{ recipe.author.user }}</p>
+<p>Категория рецепта:{{ recipe.category.name }}</p>
+<p>Дата добавления рецепта:{{ recipe.add_time }}</p>
+<p>Фото:
+    <img src="{{ recipe.img.url }}" alt="{{ recipe.name }}">
+</p>
 {% endblock %}
