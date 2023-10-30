@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-&je47=z^j+0k_^r!!s&=9jchd&2yysuu$y&xc!jpj23%nx84@o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+]
 
 LOGIN_URL = '/login/'  # ссылка на форму для логина
 

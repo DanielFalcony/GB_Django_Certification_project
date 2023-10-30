@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Author(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_date = models.DateField(null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Category(models.Model):
@@ -17,6 +16,6 @@ class Recipe(models.Model):
     cooking_steps = models.TextField(default='', blank=True)
     cooking_time = models.IntegerField()
     img = models.ImageField()
-    # author = models.ForeignKey(Author, on_delete=models.SET_DEFAULT, default='Author unknown')
+    author = models.ForeignKey(Author, on_delete=models.SET_DEFAULT, default='Author unknown')
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default='Category unknown')
     add_time = models.DateField(auto_now_add=True)
