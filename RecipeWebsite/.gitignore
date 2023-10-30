@@ -1,0 +1,3 @@
+db.sqlite3
+/recipeapp/migrations/*initial*
+/log/site*
