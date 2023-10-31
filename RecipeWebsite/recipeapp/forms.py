@@ -2,6 +2,8 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Recipe
+
 
 
 class SignUpForm(UserCreationForm):
@@ -28,3 +30,9 @@ class RecipeAddForm(forms.Form):
     recipe_category = forms.CharField(label='Категория рецепта', widget=forms.TextInput(
         attrs={'placeholder': 'Укажите категорию рецепта'}))
     product_image = forms.ImageField(label='Изображение товара:')
+
+
+class RecipeEditForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['name', 'description', 'cooking_steps', 'cooking_time', 'img', 'category']

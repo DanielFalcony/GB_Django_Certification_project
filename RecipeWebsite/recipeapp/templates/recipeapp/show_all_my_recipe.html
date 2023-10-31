@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Все рецепты {{ user }}{% endblock %}
+{% block content %}
+    <h3>Все рецепты {{ user }}</h3>
+        {% csrf_token %}
+<table style='width: 100%;'>
+    <tr>
+        {% for recipe in clear_recipes %}
+        <td style='text-align: center;'>
+            <a href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}
+                <img src="{{ recipe.img.url }}" alt="{{ recipe.name }}" width="100" height="100"></a>
+            <a href="{% url 'edit_recipe' recipe.id %}">Редактировать</a>
+            {{ recipe.get_summary }}
+        </td>
+        {% endfor %}
+    </tr>
+</table>
+{% endblock %}

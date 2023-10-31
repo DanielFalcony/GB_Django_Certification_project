@@ -4,7 +4,7 @@ from random import sample
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignUpForm
+from .forms import SignUpForm, RecipeEditForm
 from .models import Author, Category
 
 from .forms import RecipeAddForm
@@ -64,6 +64,27 @@ def add_recipe(request):
         form = RecipeAddForm()
         message = 'Заполните форму!'
     return render(request, 'recipeapp/add_recipe.html', context={'form': form, 'message': message})
+
+
+@login_required
+def edit_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    if recipe.author.user == request.user:
+        if request.method == 'POST':
+            form = RecipeEditForm(request.POST, request.FILES, instance=recipe)
+            if form.is_valid():
+                form.save()
+        else:
+            form = RecipeEditForm(instance=recipe)
+        return render(request, 'recipeapp/edit_recipe.html',
+                      {'form': form, 'recipe': recipe, 'message': 'Рецепт изменен успешно!'})
+
+
+@login_required
+def show_all_my_recipe(request):
+    clear_recipes = Recipe.objects.filter(author_id=request.user.id)
+    logger.info(f'Запрос на вывод рецептов пользователя {request.user=} выполнен успешно!')
+    return render(request, 'recipeapp/show_all_my_recipe.html', {'clear_recipes': clear_recipes, 'user': request.user})
 
 
 # @login_required  # Декоратор, защиты доступа без логина
