@@ -52,13 +52,13 @@ def add_recipe(request):  # функция создания рецепта
                 recipe_author = author
             recipe_category = form.cleaned_data['recipe_category']
             category, created = Category.objects.get_or_create(name=recipe_category)
-            product_image = form.cleaned_data['product_image']
+            recipe_image = form.cleaned_data['recipe_image']
             logger.info(
                 f'Получили данные: {recipe_name=}, {recipe_cooking_steps=}, {recipe_cooking_time=}, {recipe_author.user=}, '
-                f'{recipe_category=}, {product_image=},')
+                f'{recipe_category=}, {recipe_image=},')
             recipe = Recipe(name=recipe_name, description=recipe_description, cooking_steps=recipe_cooking_steps,
                             cooking_time=recipe_cooking_time, author=recipe_author, category=category,
-                            img=product_image)
+                            img=recipe_image)
             recipe.save()
             message = 'Рецепт сохранен!'
     else:
