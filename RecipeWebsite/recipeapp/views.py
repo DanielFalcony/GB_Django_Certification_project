@@ -3,6 +3,7 @@ from random import sample
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignUpForm, RecipeEditForm
 from .models import Author, Category
@@ -37,7 +38,7 @@ def registration(request):
 
 
 @login_required  # Декоратор, защиты доступа без логина
-def add_recipe(request):
+def add_recipe(request):  # функция создания рецепта
     if request.method == 'POST':
         form = RecipeAddForm(request.POST, request.FILES)
         message = 'Ошибка данных'
@@ -66,8 +67,8 @@ def add_recipe(request):
     return render(request, 'recipeapp/add_recipe.html', context={'form': form, 'message': message})
 
 
-@login_required
-def edit_recipe(request, recipe_id):
+@login_required  # Декоратор, защиты доступа без логина
+def edit_recipe(request, recipe_id):   # функция изменения рецепта
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     if recipe.author.user == request.user:
         if request.method == 'POST':
@@ -80,15 +81,27 @@ def edit_recipe(request, recipe_id):
                       {'form': form, 'recipe': recipe, 'message': 'Рецепт изменен успешно!'})
 
 
-@login_required
-def show_all_my_recipe(request):
+@login_required  # Декоратор, защиты доступа без логина
+def delete_recipe(request, recipe_id):   # функция удаления рецепта
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    if recipe.author.user == request.user:
+        recipe.delete()
+        messages.success(request, 'Рецепт успешно удален.')
+        return redirect('/show_all_my_recipe/')
+    else:
+        return render(request, 'recipeapp/error_page.html',
+                      {'message': 'Произошла ошибка удаления, возможно у вас нет прав на это.'})
+
+
+@login_required  # Декоратор, защиты доступа без логина
+def show_all_my_recipe(request):  # функция показа рецептов текущего пользователя
     clear_recipes = Recipe.objects.filter(author_id=request.user.id)
     logger.info(f'Запрос на вывод рецептов пользователя {request.user=} выполнен успешно!')
     return render(request, 'recipeapp/show_all_my_recipe.html', {'clear_recipes': clear_recipes, 'user': request.user})
 
 
 # @login_required  # Декоратор, защиты доступа без логина
-def show_five_recipe(request):  # Показать 5 рецептов
+def show_five_recipe(request):  # # функция показа 5 случайных рецептов
     my_ids = Recipe.objects.values_list('id', flat=True)
     my_ids = list(my_ids)
     n = 5
@@ -100,7 +113,7 @@ def show_five_recipe(request):  # Показать 5 рецептов
 
 
 # @login_required  # Декоратор, защиты доступа без логина
-def show_full_recipe(request, recipe_id):  # Показать полный рецепт
+def show_full_recipe(request, recipe_id):  # Показать 1 полный рецепт
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     logger.info(f'Зпрос на вывод 1 рецепта с ID:{recipe_id=} успешно выполнен: {recipe=}')
     return render(request, 'recipeapp/show_full_recipe.html', {'recipe': recipe})
