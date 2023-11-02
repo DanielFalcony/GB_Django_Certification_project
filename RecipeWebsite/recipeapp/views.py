@@ -53,7 +53,7 @@ def add_recipe(request):
             category, created = Category.objects.get_or_create(name=recipe_category)
             product_image = form.cleaned_data['product_image']
             logger.info(
-                f'Получили данные: {recipe_name=}, {recipe_cooking_steps=}, {recipe_cooking_time=}, {recipe_author=}, '
+                f'Получили данные: {recipe_name=}, {recipe_cooking_steps=}, {recipe_cooking_time=}, {recipe_author.user=}, '
                 f'{recipe_category=}, {product_image=},')
             recipe = Recipe(name=recipe_name, description=recipe_description, cooking_steps=recipe_cooking_steps,
                             cooking_time=recipe_cooking_time, author=recipe_author, category=category,
