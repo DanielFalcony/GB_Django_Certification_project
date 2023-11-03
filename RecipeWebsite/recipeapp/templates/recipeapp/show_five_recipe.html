@@ -2,14 +2,14 @@
 
 {% block title %}Случайные рецепты{% endblock %}
 {% block content %}
-    <h3>{{ message }}</h3>
+    <h3 class="main_title">{{ message }}</h3>
         {% csrf_token %}
-<table style='width: 100%;'>
-    <tr>
+<table class="all_recipes">
+    <tr class="five_recipes_in_row">
         {% for recipe in random_recipe %}
-        <td style='text-align: center;'>
-            <a href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}
-                <img src="{{ recipe.img.url }}" alt="{{ recipe.name }}" width="100" height="100"></a>
+        <td>
+            <a class="five_recipes_link" href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}<br><br>
+                <img class="recipe_mini_image" src="{{ recipe.img.url }}" alt="{{ recipe.name }}"></a>
             {{ recipe.get_summary }}
         </td>
         {% endfor %}
