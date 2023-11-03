@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -6,15 +7,18 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{{ title }}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
 </head>
 <body>
+<ul class="menu">
+    <li><a href="{% url 'index' %}">Главная</a></li>
+    <li><a href="{% url 'add_recipe' %}">Добавить рецепт</a></li>
+    <li><a href="{% url 'show_five_recipe' %}">5 случайных рецептов</a></li>
+    <li><a href="{% url 'show_all_my_recipe' %}">Мои рецепты</a></li>
+    <li><a href="{% url 'logout' %}">Выход</a></li>
+</ul>
 {% block content %}
 <p>Text will appear here soon...</p>
 {% endblock %}
-<p><a href="{% url 'index' %}">Вернутся на главную</a></p>
-<p><a href="{% url 'add_recipe' %}">Добавить новый рецепт</a></p>
-<p><a href="{% url 'show_five_recipe' %}">Посмотреть пять случайных рецептов</a></p>
-<p><a href="{% url 'show_all_my_recipe' %}">Посмотреть/отредактировать мои рецепты.</a></p>
-<p><a href="{% url 'logout' %}">Выход</a></p>
 </body>
 </html>
