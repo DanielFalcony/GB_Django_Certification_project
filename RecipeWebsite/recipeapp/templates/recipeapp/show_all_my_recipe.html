@@ -5,20 +5,20 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li class="message">{% if message.tags %} {% endif %}{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-    <h3>Все рецепты {{ user }}</h3>
+    <h3 class="main_title">Все рецепты {{ user }}</h3>
     {% csrf_token %}
-    <table style='width: 100%;'>
-        <tr>
+    <table class="all_recipes">
+        <tr class="five_recipes_in_row">
             {% for recipe in clear_recipes %}
-                <td style='text-align: center;'>
-                    <a href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}
-                        <img src="{{ recipe.img.url }}" alt="{{ recipe.name }}" width="100" height="100"></a>
-                    <a href="{% url 'edit_recipe' recipe.id %}">Редактировать</a>
-                    <a href="{% url 'delete_recipe' recipe.id %}">Удалить</a>
+                <td>
+                    <a class="five_recipes_link" href="{% url 'show_full_recipe' recipe.id %}">{{ recipe.name }}<br><br>
+                        <img class="recipe_mini_image" src="{{ recipe.img.url }}" alt="{{ recipe.name }}"></a><br>
+                    <a href="{% url 'edit_recipe' recipe.id %}">Редактировать</a><br>
+                    <a href="{% url 'delete_recipe' recipe.id %}">Удалить</a><br>
                     {{ recipe.get_summary }}
                 </td>
             {% endfor %}
