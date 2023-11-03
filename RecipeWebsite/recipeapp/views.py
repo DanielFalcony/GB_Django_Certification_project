@@ -75,10 +75,12 @@ def edit_recipe(request, recipe_id):   # функция изменения ре�
             form = RecipeEditForm(request.POST, request.FILES, instance=recipe)
             if form.is_valid():
                 form.save()
+                return render(request, 'recipeapp/edit_recipe.html',
+                              {'form': form, 'recipe': recipe, 'message': 'Рецепт успешно изменен'})
         else:
             form = RecipeEditForm(instance=recipe)
         return render(request, 'recipeapp/edit_recipe.html',
-                      {'form': form, 'recipe': recipe, 'message': 'Рецепт изменен успешно!'})
+                      {'form': form, 'recipe': recipe, 'message': 'Внесите необходимые изменения:'})
 
 
 @login_required  # Декоратор, защиты доступа без логина
@@ -104,10 +106,9 @@ def show_all_my_recipe(request):  # функция показа рецептов
 def show_five_recipe(request):  # # функция показа 5 случайных рецептов
     my_ids = Recipe.objects.values_list('id', flat=True)
     my_ids = list(my_ids)
-    n = 5
-    rand_ids = sample(my_ids, n)
+    rand_ids = sample(my_ids, 5)
     random_recipe = Recipe.objects.filter(id__in=rand_ids)
-    logger.info(f'Зпрос на вывод 5 рецептов успешно выполнен: {rand_ids=}')
+    logger.info(f'Запрос на вывод 5 рецептов успешно выполнен: {rand_ids=}')
     return render(request, 'recipeapp/show_five_recipe.html',
                   {'random_recipe': random_recipe, 'message': 'Пять случайных рецептов:'})
 
@@ -115,5 +116,5 @@ def show_five_recipe(request):  # # функция показа 5 случайн
 # @login_required  # Декоратор, защиты доступа без логина
 def show_full_recipe(request, recipe_id):  # Показать 1 полный рецепт
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    logger.info(f'Зпрос на вывод 1 рецепта с ID:{recipe_id=} успешно выполнен: {recipe=}')
+    logger.info(f'Запрос на вывод 1 рецепта с ID:{recipe_id=} успешно выполнен: {recipe=}')
     return render(request, 'recipeapp/show_full_recipe.html', {'recipe': recipe})
