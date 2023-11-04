@@ -102,15 +102,22 @@ def show_all_my_recipe(request):  # функция показа рецептов
     return render(request, 'recipeapp/show_all_my_recipe.html', {'clear_recipes': clear_recipes, 'user': request.user})
 
 
-# @login_required  # Декоратор, защиты доступа без логина
-def show_five_recipe(request):  # # функция показа 5 случайных рецептов
+def show_five_recipe(request):  # функция показа 5 случайных рецептов
+    n = None
     my_ids = Recipe.objects.values_list('id', flat=True)
     my_ids = list(my_ids)
-    rand_ids = sample(my_ids, 5)
+    if len(my_ids) < 5:
+        # Если доступно меньше 5 рецептов, выберите все доступные
+        rand_ids = my_ids
+        n = len(my_ids)
+    else:
+        rand_ids = sample(my_ids, 5)
+
     random_recipe = Recipe.objects.filter(id__in=rand_ids)
-    logger.info(f'Запрос на вывод 5 рецептов успешно выполнен: {rand_ids=}')
+    logger.info(f'Запрос на вывод {n} случайных рецептов с ID {rand_ids} успешно выполнен.')
+
     return render(request, 'recipeapp/show_five_recipe.html',
-                  {'random_recipe': random_recipe, 'message': 'Пять случайных рецептов:'})
+                  {'random_recipe': random_recipe, 'message': f'Выведено случайных рецептов: {n}'})
 
 
 # @login_required  # Декоратор, защиты доступа без логина
