@@ -136,7 +136,7 @@ ul.menu li a:hover {
 
 .recipe_image {
     padding: 20px;
-    height: 420px;
+    max-height: 420px;
     width: auto;
 }
 

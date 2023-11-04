@@ -5,7 +5,13 @@
     <h3 class="main_title">{{ message }}</h3>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_div }}
-        <input type="submit" value="Отправить">
+        <div class="recipe_edit_wrp">
+            <div class="recipe_details">
+                {{ form.as_div }}
+            </div>
+            <div class="save_btn">
+                <input type="submit" value="Отправить">
+            </div>
+        </div>
     </form>
 {% endblock %}
