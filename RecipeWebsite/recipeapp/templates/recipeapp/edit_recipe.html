@@ -2,12 +2,16 @@
 
 {% block title %}Изменение рецепта{% endblock %}
 {% block content %}
-    <h3>{{ message }}</h3>
+    <h3 class="main_title">{{ message }}</h3>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div>
-        {{ form.as_div }}
+        <div class="recipe_edit_wrp">
+            <div class="recipe_details">
+                {{ form.as_div }}
+            </div>
+            <div class="save_btn">
+                <input type="submit" value="Отправить">
+            </div>
         </div>
-        <input type="submit" value="Отправить">
     </form>
 {% endblock %}
